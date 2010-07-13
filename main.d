@@ -71,6 +71,7 @@ void effect_all(SDL_Surface* jacket, char[][] filenames)
 int main(char[][] args)
 {
 	SDL_Surface* jacket;
+	uint seed;
 
 	if (args.length < 4) {
 		return -1;
@@ -81,16 +82,21 @@ int main(char[][] args)
 	}
 	scope(exit) SDL_Quit();
 
-	rand_seed(1, 0);
+	writefln(args[1]);
+	seed = 0;
+	foreach (char c; args[1]) {
+		seed += c;
+	}
+	rand_seed(seed, 0);
 
 	jacket = SDL_CreateRGBSurface(
 		SDL_SWSURFACE, WIDTH, HEIGHT,
 		32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
 	SDL_FillRect(jacket, null, SDL_MapRGB(jacket.format, 0xFF, 0xFF, 0xFF));
 
-	effect_all(jacket, args[2 .. $]);
+	effect_all(jacket, args[3 .. $]);
 
-	SDL_SaveBMP(jacket, toStringz(args[1]));
+	SDL_SaveBMP(jacket, toStringz(args[2]));
 
 	SDL_FreeSurface(jacket);
 

@@ -3,7 +3,7 @@ CC = gdc
 
 SOURCES=main.d moving.d $(wildcard SDL/*.d)
 OBJS=$(SOURCES:.d=.o)
-TARGET=test
+TARGET=arakawajacket
 
 ifeq (${shell uname}, Darwin)
 	OS=-fversion=Darwin
