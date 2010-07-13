@@ -1,6 +1,8 @@
 ﻿
 
 import std.string;
+import std.stdio;
+import std.random;
 
 import SDL;
 import SDL_video;
@@ -29,13 +31,13 @@ const int WIDTH = 500;
 const int HEIGHT = 500;
 
 
-void effect(SDL_Surface* jacket, char* filename, Moving mv)
+void effect(SDL_Surface* jacket, char[] filename, Moving mv)
 {
 	SDL_Surface* image;
 	SDL_Surface* temp;
 	SDL_Rect rect;
 
-	image = IMG_Load(filename);
+	image = IMG_Load(toStringz(filename));
 	while (!mv.is_end) {
 		mv.move();
 		temp = rotozoomSurface(image, mv.angle, mv.zoom, 1);
@@ -48,26 +50,54 @@ void effect(SDL_Surface* jacket, char* filename, Moving mv)
 }
 
 
+void effect_all(SDL_Surface* jacket, char[][] filenames)
+{
+	foreach (char[] filename; filenames) {
+		Moving mv;
+		switch (rand() % 2) {
+		case 0:
+			mv = new Cascade(WIDTH, HEIGHT);
+			break;
+		case 1:
+		default:
+			mv = new Wave(WIDTH, HEIGHT);
+			break;
+		}
+		effect(jacket, filename, mv);
+	}
+}
+
+
 int main(char[][] args)
 {
 	SDL_Surface* jacket;
 
-	if (SDL_Init(0) < 0) {
+	if (args.length < 4) {
 		return -1;
+	}
+
+	if (SDL_Init(0) < 0) {
+		return -2;
 	}
 	scope(exit) SDL_Quit();
 
-	jacket = SDL_CreateRGBSurface(SDL_SWSURFACE, WIDTH, HEIGHT, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+	rand_seed(1, 0);
+
+	jacket = SDL_CreateRGBSurface(
+		SDL_SWSURFACE, WIDTH, HEIGHT,
+		32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
 	SDL_FillRect(jacket, null, SDL_MapRGB(jacket.format, 0xFF, 0xFF, 0xFF));
 
-	effect(jacket, "before_arm.gif", new Cascade(WIDTH, HEIGHT));
-	effect(jacket, "before_corpus.gif", new Wave(WIDTH, HEIGHT));
+	effect_all(jacket, args[2 .. $]);
 
-	SDL_SaveBMP(jacket, "output.bmp");
+	SDL_SaveBMP(jacket, toStringz(args[1]));
 
 	SDL_FreeSurface(jacket);
 
 	return 0;
 }
+
+
+
 
 

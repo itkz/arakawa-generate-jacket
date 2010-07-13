@@ -1,7 +1,7 @@
 
 
 import std.math;
-import std.cstream;
+import std.random;
 
 
 class Moving
@@ -73,10 +73,16 @@ class Cascade : Moving
 class Wave : Moving
 {
 	bool up = false;
+	double zoom_min;
+	double zoom_max;
+	int x_start;
 
 
 	this(int width, int height)
 	{
+		zoom_max = 1.0 + ((rand() % 8) / 10);
+		zoom_min = 1.0 - ((rand() % 8) / 10);
+		x_start = rand() % width;
 		super(width, height);
 	}
 
@@ -84,18 +90,18 @@ class Wave : Moving
 	void move()
 	{
 		x += 3;
-		y = cast(int)(sin(x * PI / width * 3) * height / 2 + (height / 2));
+		y = cast(int)(sin((x_start + x) * PI / width * 3) * height / 2 + (height / 2));
 		if (x > width) {
 			is_end = true;
 		}
 		if (up) {
 			zoom += 0.05;
-			if (zoom > 1.6) {
+			if (zoom > zoom_max) {
 				up = false;
 			}
 		} else {
 			zoom -= 0.05;
-			if (zoom < 0.4) {
+			if (zoom < zoom_min) {
 				up = true;
 			}
 		}
