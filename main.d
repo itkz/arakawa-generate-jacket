@@ -28,8 +28,8 @@ version (Darwin) {
 }
 
 
-const int WIDTH = 500;
-const int HEIGHT = 500;
+const int WIDTH = 800;
+const int HEIGHT = 800;
 
 
 void effect(SDL_Surface* jacket, char[] filename, Moving mv)
@@ -38,7 +38,7 @@ void effect(SDL_Surface* jacket, char[] filename, Moving mv)
 	SDL_Surface* temp;
 	SDL_Rect rect;
 
-	image = IMG_Load(toStringz(filename));
+	image = IMG_Load(toStringz("images/" ~ filename));
 	while (!mv.is_end) {
 		mv.move();
 		temp = rotozoomSurface(image, mv.angle, mv.zoom, 1);
@@ -105,7 +105,9 @@ char[][] get_iamges_filename()
 int main(char[][] args)
 {
 	SDL_Surface* jacket;
+	SDL_Surface* title;
 	uint seed;
+	SDL_Rect rect;
 
 	if (args.length < 3) {
 		return -1;
@@ -128,6 +130,12 @@ int main(char[][] args)
 	SDL_FillRect(jacket, null, SDL_MapRGB(jacket.format, 0xFF, 0xFF, 0xFF));
 
 	effect_all(jacket, get_iamges_filename());
+
+	title = IMG_Load(toStringz("images/title.gif"));
+	rect.x = cast(short)(WIDTH - title.w - 50);
+	rect.y = cast(short)(HEIGHT - title.h - 50);
+	SDL_BlitSurface(title, null, jacket, &rect);;
+	SDL_FreeSurface(title);
 
 	SDL_SaveBMP(jacket, toStringz(args[2]));
 
