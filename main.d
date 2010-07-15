@@ -130,13 +130,13 @@ int main(char[][] args)
 		32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
 	SDL_FillRect(jacket, null, SDL_MapRGB(jacket.format, 0xFF, 0xFF, 0xFF));
 
-	effect_all(jacket, get_iamges_filename());
-
 	u = IMG_Load(toStringz("images/u.jpg"));
 	rect.x = cast(short)(rand() % (WIDTH - u.w));
 	rect.y = cast(short)(rand() % (HEIGHT - u.h));
 	SDL_BlitSurface(u, null, jacket, &rect);;
 	SDL_FreeSurface(u);
+
+	effect_all(jacket, get_iamges_filename());
 
 	title = IMG_Load(toStringz("images/title.gif"));
 	rect.x = cast(short)(WIDTH - title.w - 50);
