@@ -50,15 +50,15 @@ class Cascade : Moving
 
 	void move()
 	{
-		y += height / 8;
+		y += height / 16;
 		if (y > height) {
 			y = 0;
-			x += width / 6;
+			x += width / 10;
 			if (x > width) {
 				is_end = true;
 			}
 		}
-		angle += 7;
+		angle += 3;
 		if (up) {
 			zoom += 0.05;
 			if (zoom > zoom_max) {
@@ -95,7 +95,7 @@ class SinWave : Moving
 
 	void move()
 	{
-		y += 3;
+		y += 1;
 		x = cast(int)(sin((x_start + y) * PI / height * wave_height) * width / 2 + (width / 2));
 		if (y > width) {
 			is_end = true;
@@ -137,7 +137,7 @@ class CosWave : Moving
 
 	void move()
 	{
-		x += 3;
+		x += 1;
 		y = cast(int)(sin((y_start + x) * PI / width * wave_width) * height / 2 + (height / 2));
 		if (x > width) {
 			is_end = true;
