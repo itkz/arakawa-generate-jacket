@@ -1,0 +1,6 @@
+*.o
+SDL/*.o
+*.dll
+*.so
+*.bmp
+*.exe

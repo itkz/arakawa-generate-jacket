@@ -1,4 +1,7 @@
 
 
-$ arakawajacket random-seed-string output-filename input-image input-image ...
+$ arakawajacket random-seed-string output-filename
+
+
+Put image file in "images" and write file name to images.txt.
 

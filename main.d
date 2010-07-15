@@ -28,8 +28,8 @@ version (Darwin) {
 }
 
 
-const int WIDTH = 800;
-const int HEIGHT = 800;
+const int WIDTH = 500;
+const int HEIGHT = 500;
 
 
 void effect(SDL_Surface* jacket, char[] filename, Moving mv)
@@ -56,7 +56,7 @@ void effect_all(SDL_Surface* jacket, char[][] image_filenames)
 	char[][] use_filenames;
 	int use_num;
 
-	use_num = (rand() % image_filenames.length) + 1;
+	use_num = (rand() % 5) + 1;
 
 	use_filenames.length = use_num;
 	for (int i = 0; i < use_num; ++i) {
@@ -106,6 +106,7 @@ int main(char[][] args)
 {
 	SDL_Surface* jacket;
 	SDL_Surface* title;
+	SDL_Surface* u;
 	uint seed;
 	SDL_Rect rect;
 
@@ -130,6 +131,12 @@ int main(char[][] args)
 	SDL_FillRect(jacket, null, SDL_MapRGB(jacket.format, 0xFF, 0xFF, 0xFF));
 
 	effect_all(jacket, get_iamges_filename());
+
+	u = IMG_Load(toStringz("images/u.jpg"));
+	rect.x = cast(short)(rand() % (WIDTH - u.w));
+	rect.y = cast(short)(rand() % (HEIGHT - u.h));
+	SDL_BlitSurface(u, null, jacket, &rect);;
+	SDL_FreeSurface(u);
 
 	title = IMG_Load(toStringz("images/title.gif"));
 	rect.x = cast(short)(WIDTH - title.w - 50);
