@@ -65,7 +65,7 @@ void effect_all(SDL_Surface* jacket, char[][] image_filenames)
 
 	foreach (char[] filename; use_filenames) {
 		Moving mv;
-		switch (rand() % 3) {
+		switch (rand() % 4) {
 		case 0:
 			mv = new Cascade(WIDTH, HEIGHT);
 			break;
@@ -73,8 +73,11 @@ void effect_all(SDL_Surface* jacket, char[][] image_filenames)
 			mv = new SinWave(WIDTH, HEIGHT);
 			break;
 		case 2:
-		default:
 			mv = new CosWave(WIDTH, HEIGHT);
+			break;
+		case 3:
+		default:
+			mv = new Circle(WIDTH, HEIGHT);
 			break;
 		}
 		effect(jacket, filename, mv);
