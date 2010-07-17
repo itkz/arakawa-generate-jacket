@@ -124,13 +124,17 @@ end
 
 
 # zipの動的生成のためのエンドポイント
-get '/MARU.zip' do
+get '/maru76.zip' do
+  # IPアドレスをもとにzipに入れる画像を決定
   seed = make_seed(request.env["REMOTE_ADDR"])
   jpath = jacketpath(seed)
+  # 画像がなければつくっておく
+ 
 
-  dirpath = '/home/yuiseki/workspace/arakawa-generate-jacket/sinatra/public/maru76'
+
+  mp3dir = '/home/yuiseki/workspace/arakawa-generate-jacket/sinatra/public/maru76'
   files = []
-  Dir::foreach(dirpath) {|f|
+  Dir::foreach(mp3dir) {|f|
     next if f == "." or f == ".." or f == ".gitignore" or f == "maru76.zip"
     files.push dirpath + "/" + f
   }
@@ -156,7 +160,7 @@ get '/MARU.zip' do
 
   # メモリ上のデータを送信
   content_type 'application/zip'
-  attachment 'MARU.zip'
+  attachment 'maru76.zip'
   zip_buffer
 
 end
