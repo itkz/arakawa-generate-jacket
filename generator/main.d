@@ -151,8 +151,8 @@ int main(char[][] args)
 	}
 
 	title = IMG_Load(toStringz("images/title.gif"));
-	rect.x = cast(short)(WIDTH - title.w - 50);
-	rect.y = cast(short)(HEIGHT - title.h - 50);
+	rect.x = cast(short)(WIDTH - title.w);
+	rect.y = cast(short)(HEIGHT - title.h);
 	SDL_BlitSurface(title, null, jacket, &rect);;
 	SDL_FreeSurface(title);
 
