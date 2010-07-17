@@ -136,7 +136,7 @@ get '/maru76.zip' do
   files = []
   Dir::foreach(mp3dir) {|f|
     next if f == "." or f == ".." or f == ".gitignore" or f == "maru76.zip"
-    files.push dirpath + "/" + f
+    files.push mp3dir + "/" + f
   }
   files.push jpath
   file_buffers = Hash.new
