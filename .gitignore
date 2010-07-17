@@ -4,3 +4,6 @@ SDL/*.o
 *.so
 *.bmp
 *.exe
+arakawatomonori
+sinatra/public/jacket/*
+sinatra/public/maru76/*
