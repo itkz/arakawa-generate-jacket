@@ -65,7 +65,7 @@ void effect_all(SDL_Surface* jacket, char[][] image_filenames)
 
 	foreach (char[] filename; use_filenames) {
 		Moving mv;
-		switch (rand() % 3) {
+		switch (rand() % 4) {
 		case 0:
 			mv = new Cascade(WIDTH, HEIGHT);
 			break;
@@ -73,8 +73,11 @@ void effect_all(SDL_Surface* jacket, char[][] image_filenames)
 			mv = new SinWave(WIDTH, HEIGHT);
 			break;
 		case 2:
-		default:
 			mv = new CosWave(WIDTH, HEIGHT);
+			break;
+		case 3:
+		default:
+			mv = new Circle(WIDTH, HEIGHT);
 			break;
 		}
 		effect(jacket, filename, mv);
@@ -107,7 +110,8 @@ int main(char[][] args)
 	SDL_Surface* jacket;
 	SDL_Surface* title;
 	SDL_Surface* u;
-	uint seed;
+	SDL_Surface* tomad;
+	int seed;
 	SDL_Rect rect;
 
 	if (args.length < 3) {
@@ -130,13 +134,21 @@ int main(char[][] args)
 		32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
 	SDL_FillRect(jacket, null, SDL_MapRGB(jacket.format, 0xFF, 0xFF, 0xFF));
 
+	if ((rand() % 50) == 0) {
+		u = IMG_Load(toStringz("images/u.jpg"));
+		rect.x = cast(short)(rand() % (WIDTH - u.w));
+		rect.y = cast(short)(rand() % (HEIGHT - u.h));
+		SDL_BlitSurface(u, null, jacket, &rect);;
+		SDL_FreeSurface(u);
+	}
+
 	effect_all(jacket, get_iamges_filename());
 
-	u = IMG_Load(toStringz("images/u.jpg"));
-	rect.x = cast(short)(rand() % (WIDTH - u.w));
-	rect.y = cast(short)(rand() % (HEIGHT - u.h));
-	SDL_BlitSurface(u, null, jacket, &rect);;
-	SDL_FreeSurface(u);
+	if ((rand() % 100) == 0) {
+		tomad = IMG_Load(toStringz("images/tomad.gif"));
+		SDL_BlitSurface(tomad, null, jacket, null);;
+		SDL_FreeSurface(tomad);
+	}
 
 	title = IMG_Load(toStringz("images/title.gif"));
 	rect.x = cast(short)(WIDTH - title.w - 50);

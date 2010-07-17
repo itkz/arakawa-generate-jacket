@@ -35,13 +35,14 @@ class Moving
 
 class Cascade : Moving
 {
-	bool up = false;
+	bool up;
 	double zoom_min;
 	double zoom_max;
 
 
 	this(int width, int height)
 	{
+		up = false;
 		zoom_max = 1.0 + ((rand() % 4) / 10);
 		zoom_min = 1.0 - ((rand() % 20) / 10);
 		super(width, height);
@@ -50,15 +51,15 @@ class Cascade : Moving
 
 	void move()
 	{
-		y += height / 8;
+		y += height / 16;
 		if (y > height) {
 			y = 0;
-			x += width / 6;
+			x += width / 10;
 			if (x > width) {
 				is_end = true;
 			}
 		}
-		angle += 7;
+		angle += 3;
 		if (up) {
 			zoom += 0.05;
 			if (zoom > zoom_max) {
@@ -76,7 +77,7 @@ class Cascade : Moving
 
 class SinWave : Moving
 {
-	bool up = false;
+	bool up;
 	double zoom_min;
 	double zoom_max;
 	double x_start;
@@ -85,6 +86,7 @@ class SinWave : Moving
 
 	this(int width, int height)
 	{
+		up = false;
 		zoom_max = 1.0 + ((rand() % 8) / 10);
 		zoom_min = 1.0 - ((rand() % 8) / 10);
 		x_start = rand() % width;
@@ -95,7 +97,7 @@ class SinWave : Moving
 
 	void move()
 	{
-		y += 3;
+		y += 1;
 		x = cast(int)(sin((x_start + y) * PI / height * wave_height) * width / 2 + (width / 2));
 		if (y > width) {
 			is_end = true;
@@ -118,7 +120,7 @@ class SinWave : Moving
 
 class CosWave : Moving
 {
-	bool up = false;
+	bool up;
 	double zoom_min;
 	double zoom_max;
 	double y_start;
@@ -127,6 +129,7 @@ class CosWave : Moving
 
 	this(int width, int height)
 	{
+		up = false;
 		zoom_max = 1.0 + ((rand() % 8) / 10);
 		zoom_min = 1.0 - ((rand() % 8) / 10);
 		y_start = rand() % width;
@@ -137,7 +140,7 @@ class CosWave : Moving
 
 	void move()
 	{
-		x += 3;
+		x += 1;
 		y = cast(int)(sin((y_start + x) * PI / width * wave_width) * height / 2 + (height / 2));
 		if (x > width) {
 			is_end = true;
@@ -154,6 +157,48 @@ class CosWave : Moving
 			}
 		}
 		angle += 4;
+	}
+}
+
+
+class Circle : Moving
+{
+	bool up;
+	double zoom_min;
+	double zoom_max;
+	int circle_angle;
+
+
+	this(int width, int height)
+	{
+		up = false;
+		zoom_max = 1.0 + ((rand() % 8) / 10);
+		zoom_min = 1.0 - ((rand() % 8) / 10);
+		circle_angle = 0;
+		super(width, height);
+	}
+
+
+	void move()
+	{
+		x = cast(int)(sin(circle_angle * PI / 180.0) * ((width - 150) / 2) + (width - 150) / 2);
+		y = cast(int)(sin((circle_angle - 90) * PI / 180.0) * ((height - 150) / 2) + (height - 150) / 2);
+		if (up) {
+			zoom += 0.05;
+			if (zoom > zoom_max) {
+				up = false;
+			}
+		} else {
+			zoom -= 0.05;
+			if (zoom < zoom_min) {
+				up = true;
+			}
+		}
+		angle += 4;
+		circle_angle += 6;
+		if (circle_angle > 360) {
+			is_end = true;
+		}
 	}
 }
 
