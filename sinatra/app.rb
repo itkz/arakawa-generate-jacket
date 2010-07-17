@@ -37,7 +37,7 @@ helpers do
     # seedをもとに画像を生成してpngにして既定のパスに保存
     flag = true
     begin
-      Dir.chdir("/home/yuiseki/workspace/arakawa-generate-jacket/")
+      Dir.chdir("/home/yuiseki/workspace/arakawa-generate-jacket/generator/")
       system("./arakawajacket #{seed} /tmp/#{seed}.bmp")
       system("convert /tmp/#{seed}.bmp #{path}")
     rescue
@@ -154,18 +154,12 @@ get '/MARU.zip' do
     end
   end
 
+  # メモリ上のデータを送信
   content_type 'application/zip'
   attachment 'MARU.zip'
-  # メモリ上のデータを送信
   zip_buffer
 
 end
-
-
-
-
-
-
 
 
 
