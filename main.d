@@ -134,7 +134,7 @@ int main(char[][] args)
 		32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
 	SDL_FillRect(jacket, null, SDL_MapRGB(jacket.format, 0xFF, 0xFF, 0xFF));
 
-	if ((rand() % 10) == 0) {
+	if ((rand() % 50) == 0) {
 		u = IMG_Load(toStringz("images/u.jpg"));
 		rect.x = cast(short)(rand() % (WIDTH - u.w));
 		rect.y = cast(short)(rand() % (HEIGHT - u.h));
